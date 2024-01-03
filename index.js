@@ -1,17 +1,23 @@
-const htt = require('http');
+const http = require('http');
 
 const app = require('./src/app');
-const { error } = require('console');
+
 
 require('dotenv').config();
-const server = htt.createServer(app);
+
+//BDD
+require('./src/config/db');
+
+const server = http.createServer(app);
+
+
 
 const PORT = process.env.PORT || 3000;
 
 server.listen(PORT);
 
 server.on('listening', () => {
-    console.log(`Servidor escichando puerto ${PORT}`);
+    console.log(`Servidor escuchando puerto ${PORT}`);
 });
- 
+
 server.on('error', (error) => console.log(error));

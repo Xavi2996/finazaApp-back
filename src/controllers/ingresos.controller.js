@@ -1,11 +1,13 @@
 const ingresosModel = require('../models/ingresos.model')
 
 const getAllIngresos = async(req, res) => {
-
-    const [result] = await ingresosModel.selectAllIngresos();
-    console.log(result);
-
-    res.json(result);
+    try {
+        const [result] = await ingresosModel.selectAllIngresos();
+        console.log(result);
+        res.json(result);   
+    } catch (error) {
+        res.json(error)
+    }
 }
 const createIngresos = (req, res) => {
     res.send('Funciona createIngresos');

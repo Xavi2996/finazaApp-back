@@ -1,8 +1,54 @@
 const ingresosModel = require('../models/ingresos.model')
 
+//Revusar si este servicio funciona
 const getAllIngresos = async(req, res) => {
     try {
         const [result] = await ingresosModel.selectAllIngresos();
+        console.log(result);
+            res.json({
+            respuesta: false,
+            mensaje: 'Datos encontrados',
+            resultado: result
+        })   
+    } catch (error) {
+        res.json({
+            respuesta: false,
+            mensaje: 'Falla en el servicio',
+            resultado: error
+        })
+    }
+}
+
+const getIngresosYear = async (req, res) => {
+    console.log(req.body);
+    const {year, id} = req.body
+    try {
+        const [result] = await ingresosModel.selectIngresosYear(year,id);
+        if (result.length == 0) {
+            res.json({
+                respuesta: false,
+                mensaje: 'No se encuentra información en esta fecha',
+                resultado: 'No data'
+            })
+        } else {
+            res.json({
+            respuesta: false,
+            mensaje: 'Datos encontrados',
+            resultado: result
+        })  
+        }
+    } catch (error) {
+            res.json({
+                respuesta: false,
+                mensaje: 'Falla en el servicio',
+                resultado: error
+            })
+    }
+}
+
+const getIngresosMonth = async(req, res) => {
+    try {
+        const [result] = await ingresosModel.selectIngresosMonth;
         console.log(result);
         res.json(result);   
     } catch (error) {
@@ -19,4 +65,4 @@ const deleteIngresos = (req, res) => {
     res.send('Funciona deleteIngresos');
 }
 
-module.exports = {getAllIngresos,createIngresos,editIngresos, deleteIngresos}
+module.exports = {getAllIngresos,createIngresos,editIngresos, deleteIngresos, getIngresosYear, getIngresosMonth}

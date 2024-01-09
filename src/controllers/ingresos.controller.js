@@ -1,4 +1,4 @@
-const ingresosModel = require('../models/ingresos.model')
+const ingresosModel = require('../models/ingresos.model');
 
 //Revusar si este servicio funciona
 const getAllIngresos = async(req, res) => {
@@ -32,7 +32,7 @@ const getIngresosYear = async (req, res) => {
             })
         } else {
             res.json({
-            respuesta: false,
+            respuesta: true,
             mensaje: 'Datos encontrados',
             resultado: result
         })  
@@ -47,13 +47,55 @@ const getIngresosYear = async (req, res) => {
 }
 
 const getIngresosMonth = async(req, res) => {
-    try {
-        const [result] = await ingresosModel.selectIngresosMonth;
-        console.log(result);
-        res.json(result);   
+    console.log(req.body);
+    const { year, id, month } = req.body
+    if (month == 0) {
+        try {
+        const [result] = await ingresosModel.selectIngresosYear(year,id);
+        if (result.length == 0) {
+            res.json({
+                respuesta: false,
+                mensaje: 'No se encuentra información en esta fecha',
+                resultado: 'No data'
+            })
+        } else {
+            res.json({
+            respuesta: true,
+            mensaje: 'Datos encontrados',
+            resultado: result
+        })  
+        }
     } catch (error) {
-        res.json(error)
+            res.json({
+                respuesta: false,
+                mensaje: 'Falla en el servicio',
+                resultado: error
+            })
     }
+    }else{
+    try {
+        const [result] = await ingresosModel.selectIngresosMonth(year,id,month);
+        if (result.length == 0) {
+            res.json({
+                respuesta: false,
+                mensaje: 'No se encuentra información en esta fecha',
+                resultado: 'No data'
+            })
+        } else {
+            res.json({
+            respuesta: true,
+            mensaje: 'Datos encontrados',
+            resultado: result
+        })  
+        }
+    } catch (error) {
+            res.json({
+                respuesta: false,
+                mensaje: 'Falla en el servicio',
+                resultado: error
+            })
+        }
+        }
 }
 const createIngresos = (req, res) => {
     res.send('Funciona createIngresos');

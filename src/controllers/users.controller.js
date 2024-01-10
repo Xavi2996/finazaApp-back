@@ -4,9 +4,16 @@ const getSpecificUser = async(req, res) => {
     try {
         const [result] = await usersModel.selectSpecificUser();
         console.log(result);
-        res.json(result);   
+        res.json({
+            respuesta: true,
+            mensaje: 'Usuario recuperado con éxito',
+            resultado: result
+        });   
     } catch (error) {
-        res.json(error)
+        res.json({
+            respuesta: false,
+            mensaje: 'Usuario no encontrado',
+        })
     }
 }
 

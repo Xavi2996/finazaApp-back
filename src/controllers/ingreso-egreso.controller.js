@@ -2,28 +2,71 @@ const ingresoModel = require('../models/ingresos.model');
 const egresoModel = require('../models/egresos.model');
 
 const getTotal = async (req, res) => {
-    let ingresosTotal;
-    let egresosTotal;
+    let ingresosTotal = 0;
+    let egresosTotal = 0;
     try {
         const [ingresos] = await ingresoModel.selectAllIngresos();
         const [egresos] = await egresoModel.selectAllEgresos();
-        console.log(ingresos);
-        console.log(egresos);
         ingresos.forEach(element => {
-            ingresosTotal = + element.cantidad;
+            ingresosTotal = ingresosTotal + Number(element.cantidad);
         });
 
         egresos.forEach(element => {
-            egresosTotal = + element.cantidad;
+            egresosTotal = egresosTotal + Number(element.cantidad);
         });
-
-        console.log(ingresosTotal);
-        console.log(egresosTotal);
-        
-        // res.json(result);   
+        res.json({
+            respuesta: true,
+            mensaje: 'respuesta exitosa',
+            resultado: {
+                ingresos,
+                egresos,
+                ingresosTotal,
+                egresosTotal
+            } 
+        });   
     } catch (error) {
-        res.json(error)
+        res.json({
+            respuesta: false,
+            mensaje: 'No cuenta con Ingreso - Egresos',
+            resultado: null
+        })
     }
 }
 
-module.exports = {getTotal}
+const getTotalDate = async (req, res) => {
+    console.log(req.body);
+    const {year, id, month} = req.body
+    let ingresosTotal = 0;
+    let egresosTotal = 0;
+    console.log(req.body);
+    
+    try {
+        const [ingresos] = await ingresoModel.selectIngresosMonth(year, id, month);
+        const [egresos] = await egresoModel.selectEgresosMonth(year, id, month);
+        ingresos.forEach(element => {
+            ingresosTotal = ingresosTotal + Number(element.cantidad);
+        });
+
+        egresos.forEach(element => {
+            egresosTotal = egresosTotal + Number(element.cantidad);
+        });
+        res.json({
+            respuesta: true,
+            mensaje: 'respuesta exitosa',
+            resultado: {
+                ingresos,
+                egresos,
+                ingresosTotal,
+                egresosTotal
+            } 
+        });   
+    } catch (error) {
+        res.json({
+            respuesta: false,
+            mensaje: 'No cuenta con Ingreso - Egresos',
+            resultado: null
+        })
+    }
+}
+
+module.exports = {getTotal, getTotalDate}

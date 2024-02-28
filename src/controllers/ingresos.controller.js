@@ -4,7 +4,6 @@ const ingresosModel = require('../models/ingresos.model');
 const getAllIngresos = async(req, res) => {
     try {
         const [result] = await ingresosModel.selectAllIngresos();
-        console.log(result);
             res.json({
             respuesta: false,
             mensaje: 'Datos encontrados',
@@ -20,7 +19,6 @@ const getAllIngresos = async(req, res) => {
 }
 
 const getIngresosYear = async (req, res) => {
-    console.log(req.body);
     const {year, id} = req.body
     try {
         const [result] = await ingresosModel.selectIngresosYear(year,id);

@@ -6,9 +6,7 @@ const getTotal = async (req, res) => {
     let egresosTotal = 0;
     try {
         const [ingresos] = await ingresoModel.selectAllIngresos();
-        const [egresos] = await egresoModel.selectAllEgresos();
-        console.log(ingresos);
-        
+        const [egresos] = await egresoModel.selectAllEgresos();       
         ingresos.forEach(element => {
             ingresosTotal = ingresosTotal + Number(element.cantidad);
         });

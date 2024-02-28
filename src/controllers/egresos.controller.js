@@ -3,7 +3,6 @@ const egresosModel = require('../models/egresos.model')
 const getAllEgresos = async(req, res) => {
     try {
         const [result] = await egresosModel.selectAllEgresos();
-        console.log(result);
         res.json(result);   
     } catch (error) {
         res.json(error)
@@ -11,7 +10,6 @@ const getAllEgresos = async(req, res) => {
 }
 
 const getEgresosYear = async (req, res) => {
-    console.log(req.body);
     const {year, id} = req.body
     try {
         const [result] = await egresosModel.selectEgresosYear(year,id);
@@ -38,7 +36,6 @@ const getEgresosYear = async (req, res) => {
 }
 
 const getEgresosMonth = async(req, res) => {
-    console.log(req.body);
     const { year, id, month } = req.body
     if (month == 0) {
         try {

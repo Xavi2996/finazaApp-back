@@ -11,6 +11,8 @@ router.post('/insertFavIngreso', usersController.postFavIngreso);
 router.post('/insertFavEgreso', usersController.postFavEgreso);
 router.get('/deleteFavIngreso/:id', usersController.deleteFavIngreso);
 router.get('/deleteFavEgreso/:id', usersController.deleteFavEgreso);
+router.delete('/deleteDetalleIngreso/:id', usersController.deleteDetalleIngreso);
+router.delete('/deleteDetalleEgreso/:id', usersController.deleteDetalleEgreso);
 
 
 module.exports = router;

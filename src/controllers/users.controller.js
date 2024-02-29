@@ -170,5 +170,37 @@ const deleteFavEgreso = async (req, res) => {
         }
     }
 }
+const deleteDetalleIngreso = async (req, res) => {
+    try {
+        const [result] = await usersModel.deleteDetalleIngreso(req.params.id);
+        res.json({
+        respuesta: true,
+        mensaje: 'Ingreso eliminado con éxito',
+        resultado: result
+        });
+    } catch (error) {
+        res.json({
+        respuesta: false,
+        mensaje: error,
+        resultado: null
+        });   
+    }
+}
+const deleteDetalleEgreso = async (req, res) => {
+    try {
+        const [result] = await usersModel.deleteDetalleEgreso(req.params.id);
+        res.json({
+        respuesta: true,
+        mensaje: 'Egreso eliminado con éxito',
+        resultado: result
+        });
+    } catch (error) {
+        res.json({
+        respuesta: false,
+        mensaje: error,
+        resultado: null
+        });   
+    }
+}
 
-module.exports = {getSpecificUser, getFavIngreso, getFavEgreso,postCatIngreso, postCatEgreso,deleteFavIngreso,deleteFavEgreso,postFavEgreso,postFavIngreso}
+module.exports = {getSpecificUser, getFavIngreso, getFavEgreso,postCatIngreso, postCatEgreso,deleteFavIngreso,deleteFavEgreso,postFavEgreso,postFavIngreso,deleteDetalleIngreso, deleteDetalleEgreso}

@@ -24,4 +24,11 @@ const deleteFavEgresos = (id) => {
     return db.query('UPDATE favoritos_egreso SET estado = FALSE WHERE id = ?', [id])
 }
 
-module.exports = {selectSpecificUser,selectFavIngreso,selectFavEgreso,insertFavIngresos,insertFavEgresos, deleteFavIngresos,deleteFavEgresos}
+const deleteDetalleIngreso = (id) => {
+    return db.query('DELETE FROM ingresos WHERE id= ?', [id])
+}
+const deleteDetalleEgreso = (id) => {
+    return db.query('DELETE FROM egresos WHERE id= ?', [id])
+}
+
+module.exports = {selectSpecificUser,selectFavIngreso,selectFavEgreso,insertFavIngresos,insertFavEgresos, deleteFavIngresos,deleteFavEgresos, deleteDetalleIngreso, deleteDetalleEgreso}

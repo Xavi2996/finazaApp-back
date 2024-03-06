@@ -85,8 +85,39 @@ const getEgresosMonth = async(req, res) => {
         }
         }
 }
-const createEgresos = (req, res) => {
-    res.send('Funciona createegresos');
+
+const createEgresos = async (req, res) => {
+    //console.log(req.body);
+    const { cantidad, fecha, categoria, usuario } = req.body; 
+    
+    try {
+        const [existEgreso] = await egresosModel.findEgresos(categoria);
+        if (existEgreso.length == 0) {
+            const [EgresoDetalle] = await egresosModel.insertEgresos(categoria);
+            const id = EgresoDetalle.insertId;            
+            const [result] = await egresosModel.createEgresos(cantidad, fecha, id, usuario);
+            res.json({
+                respuesta: true,
+                mensaje: 'Egreso no existe, agregado correctamente',
+                resultado: true
+            });
+        } else {
+            const [result] = await egresosModel.createEgresos(cantidad, fecha, existEgreso[0].id, usuario);
+            res.json({
+            respuesta: true,
+            mensaje: 'Egreso existe, agregado correctamente',
+            resultado: true
+            });
+        }
+        console.log(existEgreso);
+        console.log(existEgreso[0].id);
+    } catch (error) {
+            res.json({
+                respuesta: false,
+                mensaje: 'Falla en el servicio',
+                resultado: error
+            })
+        }
 }
 const editEgresos = (req, res) => {
     res.send('Funciona editegresos');

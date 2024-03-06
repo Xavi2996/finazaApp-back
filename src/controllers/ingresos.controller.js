@@ -95,8 +95,38 @@ const getIngresosMonth = async(req, res) => {
         }
         }
 }
-const createIngresos = (req, res) => {
-    res.send('Funciona createIngresos');
+const createIngresos = async (req, res) => {
+    //console.log(req.body);
+    const { cantidad, fecha, categoria, usuario } = req.body; 
+    
+    try {
+        const [existIngreso] = await ingresosModel.findIngresos(categoria);
+        if (existIngreso.length == 0) {
+            const [ingresoDetalle] = await ingresosModel.insertIngresos(categoria);
+            const id = ingresoDetalle.insertId;            
+            const [result] = await ingresosModel.createIngresos(cantidad, fecha, id, usuario);
+            res.json({
+                respuesta: true,
+                mensaje: 'Ingreso no existe, agregado correctamente',
+                resultado: true
+            });
+        } else {
+            const [result] = await ingresosModel.createIngresos(cantidad, fecha, existIngreso[0].id, usuario);
+            res.json({
+            respuesta: true,
+            mensaje: 'Ingreso existe, agregado correctamente',
+            resultado: true
+            });
+        }
+        console.log(existIngreso);
+        console.log(existIngreso[0].id);
+    } catch (error) {
+            res.json({
+                respuesta: false,
+                mensaje: 'Falla en el servicio',
+                resultado: error
+            })
+        }
 }
 const editIngresos = (req, res) => {
     res.send('Funciona editIngresos');

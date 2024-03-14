@@ -17,6 +17,13 @@ const insertFavEgresos = (categoria) => {
     return db.query('INSERT INTO favoritos_egreso (nombre) VALUES (?)', [categoria])
 }
 
+const activeFavIngresos = (nombre) => {
+    return db.query('UPDATE favoritos_ingreso SET estado = TRUE WHERE nombre = ?', [nombre])
+}
+const activeFavEgresos = (nombre) => {
+    return db.query('UPDATE favoritos_egreso SET estado = TRUE WHERE nombre = ?', [nombre])
+}
+
 const deleteFavIngresos = (id) => {
     return db.query('UPDATE favoritos_ingreso SET estado = FALSE WHERE id = ?', [id])
 }
@@ -31,4 +38,4 @@ const deleteDetalleEgreso = (id) => {
     return db.query('DELETE FROM egresos WHERE id= ?', [id])
 }
 
-module.exports = {selectSpecificUser,selectFavIngreso,selectFavEgreso,insertFavIngresos,insertFavEgresos, deleteFavIngresos,deleteFavEgresos, deleteDetalleIngreso, deleteDetalleEgreso}
+module.exports = {selectSpecificUser,selectFavIngreso,selectFavEgreso,insertFavIngresos,insertFavEgresos, deleteFavIngresos,deleteFavEgresos, deleteDetalleIngreso, deleteDetalleEgreso,activeFavIngresos,activeFavEgresos }

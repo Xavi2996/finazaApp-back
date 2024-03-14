@@ -103,29 +103,27 @@ const createIngresos = async (req, res) => {
         const [existIngreso] = await ingresosModel.findIngresos(categoria);
         if (existIngreso.length == 0) {
             const [ingresoDetalle] = await ingresosModel.insertIngresos(categoria);
-            const id = ingresoDetalle.insertId;            
+            const id = ingresoDetalle.insertId;   
             const [result] = await ingresosModel.createIngresos(cantidad, fecha, id, usuario);
-            res.json({
-                respuesta: true,
-                mensaje: 'Ingreso no existe, agregado correctamente',
-                resultado: true
-            });
+            return res.json({
+                    respuesta: true,
+                    mensaje: 'Ingreso no existe, agregado correctamente',
+                    resultado: true
+                });
         } else {
             const [result] = await ingresosModel.createIngresos(cantidad, fecha, existIngreso[0].id, usuario);
-            res.json({
-            respuesta: true,
-            mensaje: 'Ingreso existe, agregado correctamente',
-            resultado: true
-            });
+            return res.json({
+                respuesta: true,
+                mensaje: 'Ingreso existe, agregado correctamente',
+                resultado: true
+                });
         }
-        console.log(existIngreso);
-        console.log(existIngreso[0].id);
     } catch (error) {
-            res.json({
-                respuesta: false,
-                mensaje: 'Falla en el servicio',
-                resultado: error
-            })
+            return res.json({
+                    respuesta: false,
+                    mensaje: 'Falla en el servicio',
+                    resultado: error
+                })
         }
 }
 const editIngresos = (req, res) => {

@@ -99,8 +99,9 @@ const postFavEgreso = async(req, res) => {
         });
     } catch (error) {
         if (error.code == 'ER_DUP_ENTRY') {
+            const [result] = await usersModel.activeFavEgresos(req.body.categoria);
             res.json({
-                respuesta: false,
+                respuesta: true,
                 mensaje: 'El favorito ya existe',
                 resultado: null
             });   
@@ -118,10 +119,11 @@ const postFavIngreso = async (req, res) => {
             resultado: respuesta
         });
     } catch (error) {
-        console.log(error);
         if (error.code == 'ER_DUP_ENTRY') {
+            const [result] = await usersModel.activeFavIngresos(req.body.categoria);
+            console.log(result);
             res.json({
-                respuesta: false,
+                respuesta: true,
                 mensaje: 'El favorito ya existe',
                 resultado: null
             });   

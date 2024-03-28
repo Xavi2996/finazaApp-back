@@ -1,5 +1,6 @@
 const ingresoModel = require('../models/ingresos.model');
 const egresoModel = require('../models/egresos.model');
+const ingresoEgresoModel = require('../models/ingresos-egresos.model');
 
 const getTotal = async (req, res) => {
     let ingresosTotal = 0;
@@ -87,4 +88,38 @@ const getTotalDate = async (req, res) => {
     }
 }
 
-module.exports = {getTotal, getTotalDate}
+const getGatosTotalMonth = async (req, res) => {
+    const { year } = req.body;
+    let gastos = {};
+    try {
+        const [resultIngresos] = await ingresoEgresoModel.getIngresosTotalMonth(year);
+        const [resultEgresos] = await ingresoEgresoModel.getEgresosTotalMonth(year);
+        
+        
+        if (resultIngresos.length == 0 && resultEgresos.length == 0) {
+            res.json({
+                respuesta: false,
+                mensaje: 'No se encuentra información en esta fecha',
+                resultado: 'No data'
+            })
+        } else {           
+            gastos = {
+                ingresos: resultIngresos,
+                egresos: resultEgresos
+            }
+            res.json({
+            respuesta: true,
+            mensaje: 'Datos encontrados',
+            resultado: gastos
+        })  
+        }
+    } catch (error) {
+            res.json({
+                respuesta: false,
+                mensaje: 'Falla en el servicio',
+                resultado: error
+            })
+    }
+}
+
+module.exports = {getTotal, getTotalDate, getGatosTotalMonth}

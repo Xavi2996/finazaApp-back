@@ -44,6 +44,8 @@ const getIngresosYear = async (req, res) => {
     }
 }
 
+
+
 const getIngresosMonth = async(req, res) => {
     console.log(req.body);
     const { year, id, month } = req.body
